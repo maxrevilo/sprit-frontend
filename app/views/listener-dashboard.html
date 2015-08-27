@@ -1,0 +1,268 @@
+<form>
+    <h1>
+        <label for="name"
+            ng-if="!instance.$id">
+            New Listener
+        </label>
+        <input
+            id="name"
+            type="text"
+            class="form-control"
+            ng-model="intance.name"
+            placeholder="Human friendly name">
+    </h1>
+
+    <div class="form-group">
+        <label for="path">
+            Path
+        </label>
+
+        <input
+            id="path"
+            type="text"
+            class="form-control"
+            ng-model="intance.path"
+            placeholder="Path to the resource to watch">
+
+        <!--p class="help-block">Example block-level help text here.</p-->
+    </div>
+
+    <div class="form-group">
+        <label for="eventType">
+            On
+        </label>
+
+        <select
+            id="eventType"
+            class="form-control"
+            ng-model="intance.eventType"
+            ng-options="childEvent as childEvent for childEvent in childEvents"
+            >
+        </select>
+    </div>
+
+    <a
+        class="btn btn-default btn-block btn-sm"
+        role="button"
+        ng-click="addAction()">
+        Add and Action to this module
+    </a>
+
+    <div
+        class="panel panel-default"
+        ng-repeat="(actionId, action) in intance.actions">
+
+        <div class="panel-heading">
+            <h3 class="">
+                {{action.name || 'Untitled'}}
+
+                <a class="btn btn-danger pull-right" role="button"
+                    ng-click="removeAction(actionId)"
+                    >
+                    Delete
+                </a>
+
+            </h3>
+
+        </div>
+
+        <div class="panel-body">
+
+            <div class="form-group">
+                <label for="actionName">
+                    Action Name
+                </label>
+
+                <input
+                    id="actionName"
+                    type="text"
+                    class="form-control"
+                    ng-model="action.name"
+                    placeholder="Human friendly name">
+
+                <!--p class="help-block">Example block-level help text here.</p-->
+            </div>
+
+            <div class="form-group">
+                <label for="actionType">
+                    Action Type
+                </label>
+
+                <select
+                    id="actionType"
+                    class="form-control"
+                    ng-model="action.actionType"
+                    ng-options="actionType as actionType for actionType in actionTypes"
+                    >
+                </select>
+
+                <!--p class="help-block">Example block-level help text here.</p-->
+            </div>
+
+            <div class="form-group">
+                <label for="condition">
+                    Variables
+                </label>
+
+                <a
+                    class="btn btn-default btn-block btn-sm"
+                    role="button"
+                    ng-click="addVariableTo(actionId)">
+                    Add a variable
+                </a>
+
+                <div class="row"
+                    ng-repeat="(variableId, variable) in action.variables"
+                    >
+                    <div class="col-sm-3 col-md-3">
+                        <div class="input-group">
+                              <span class="input-group-addon" id="sizing-addon1">$</span>
+                              <input 
+                                  type="text"
+                                  class="form-control"
+                                  ng-model="variable.key"
+                                  placeholder="Key">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8 col-md-8">
+                        <input
+                            id="condition"
+                            type="text"
+                            class="form-control"
+                            ng-model="variable.value"
+                            placeholder="Value">
+                    </div>
+
+                    <div class="col-sm-1 col-md-1">
+                        <a class="btn btn-danger" role="button"
+                            ng-click="removeVariable(actionId, variableId)"
+                            >
+                            X
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--div class="form-group">
+                <label for="condition">
+                    Condition
+                </label>
+
+                <input
+                    id="condition"
+                    type="text"
+                    class="form-control"
+                    ng-model="action.condition"
+                    placeholder="Condition to take the action">
+
+                <p class="help-block">Example block-level help text here.</p>
+            </div-->
+
+            <div ng-if="action.actionType != actionTypes.httpRequest">
+                <div class="form-group">
+                    <label for="eventType">
+                        Query Method
+                    </label>
+
+                    <select
+                        id="eventType"
+                        class="form-control"
+                        ng-model="action.queryMethod"
+                        >
+                        <option value="path">
+                            Path
+                        </option>
+                        <option value="filter">
+                            Filter
+                        </option>
+                    </select>
+                </div>
+
+                <div ng-if="action.queryMethod == 'filter'">
+                    <div class="alert alert-danger" role="alert">
+                        Not aviable    
+                    </div>
+                </div>
+
+                <div ng-if="action.queryMethod == 'path'">
+                    <div class="form-group">
+                        <label for="data">
+                            Path
+                        </label>
+
+                        <input
+                            id="data"
+                            type="text"
+                            class="form-control"
+                            ng-model="action.path"
+                            placeholder="Path to set the data">
+
+                        <!--p class="help-block">Example block-level help text here.</p-->
+                    </div>
+                </div>
+
+                <div class="form-group"
+                    ng-if="action.actionType != actionTypes.remove">
+                    <label for="data">
+                        Data to Push/Set
+                    </label>
+
+                    <textarea
+                        id="data"
+                        type="text"
+                        class="form-control"
+                        ng-model="action.data"
+                        placeholder="Data to Push/Set"
+                    ></textarea>
+
+                    <!--p class="help-block">Example block-level help text here.</p-->
+                </div>
+            </div>
+
+            <div ng-if="action.actionType == actionTypes.httpRequest">
+                <div class="form-group">
+                    <label for="url">
+                        URL
+                    </label>
+
+                    <input
+                        id="url"
+                        type="text"
+                        class="form-control"
+                        ng-model="action.url"
+                        placeholder="URL to send the request">
+
+                    <!--p class="help-block">Example block-level help text here.</p-->
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+
+    <button
+        type="submit"
+        ng-if="!instance.$id"
+        class="btn btn-primary btn-lg"
+        ng-click="create()">
+        Create
+    </button>
+
+    <button
+        type="submit"
+        ng-if="instance.$id"
+        class="btn btn-danger btn-lg"
+        ng-click="delete()">
+        Delete
+    </button>
+
+    <button
+        type="submit"
+        ng-if="instance.$id"
+        class="btn btn-primary btn-lg"
+        ng-click="save()">
+        Save
+    </button>
+</form>

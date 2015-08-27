@@ -1,0 +1,48 @@
+<h1>My Projects</h1>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4">
+        <form
+            class="thumbnail"
+            >
+            <img src="https://placeholdit.imgix.net/~text?txtsize=32&txt={{newInstance.name || 'New+Project'}}&w=128&h=128&txttrack=0">
+            <div class="caption">
+                <input type="text" placeholder="Project Name" ng-model="newInstance.name">
+                <input type="text" placeholder="Owner ID" ng-model="newInstance.owner">
+                <p>
+                    <button
+                        ng-click="create()"
+                        type="submit"
+                        role="button"
+                        class="btn btn-primary">
+                        Create
+                    </button>
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <div
+        ng-repeat="(projectId, project) in projects"
+        class="col-sm-6 col-md-4">    
+        <div class="thumbnail">
+            <img ng-src="https://placeholdit.imgix.net/~text?txtsize=32&txt={{project.name}}&w=128&h=128&txttrack=0">
+            <div class="caption">
+                <h3>
+                    {{project.name}}
+                </h3>
+                <p>
+                    Owner {{project.owner}}
+                </p>
+                <p>
+                    <a ng-href="#/project-dashboard/{{projectId}}" class="btn btn-primary" role="button">Open</a>
+                    <a class="btn btn-danger" role="button"
+                        ng-click="delete(projectId)"
+                        >
+                        Delete
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

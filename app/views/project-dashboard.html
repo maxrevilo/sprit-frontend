@@ -1,0 +1,97 @@
+<h1>Project "{{project.name}}"</h1>
+
+<form>
+    <div class="form-group">
+        <label for="exampleInputEmail1">App Name</label>
+        <input
+            id="appName"
+            type="text"
+            class="form-control"
+            ng-model="project.appName"
+            placeholder="Firebase's App Name">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputPassword1">Auth Token</label>
+        <input
+            id="authToken"
+            type="password"
+            class="form-control"
+            ng-model="project.authToken"
+            placeholder="Authorization Token">
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="project.active"> Active
+        </label>
+    </div>
+
+</form>
+
+<h3>
+    Modules
+</h3>
+
+<form>
+    <h3>
+        New Module
+    </h3>
+    <input ng-model="newModule.name" placeholder="New module name">
+    <button
+        ng-click="create()"
+        type="submit"
+        role="button"
+        class="btn btn-primary">
+        Create
+    </button>
+</form>
+
+<div
+    class="panel panel-default"
+    ng-repeat="(moduleId, module) in project.modules">
+    <div class="panel-heading">
+        <h3 class="">
+            {{module.name}}
+
+            <a class="btn btn-danger pull-right" role="button"
+                ng-click="delete(moduleId)"
+                >
+                Delete
+            </a>
+
+        </h3>
+
+
+    </div>
+
+    <div class="panel-body">
+        <table
+            class="table table-hover">
+                <tr ng-repeat="(listenerId, listener) in module.listeners">
+                    <td>
+                        <a ng-href="#/project/{{projectId}}/module/{{moduleId}}/listener-dashboard/">
+                            {{listener.name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{listener.path}}
+                    </td>
+                    <td>
+                        {{listener.eventType}}
+                    </td>
+                    <td>
+                        {{listener.eventType}}
+                    </td>
+                </tr>
+        </table>
+
+        <a
+            class="btn btn-primary btn-block"
+            role="button"
+            ng-href="#/project/{{projectId}}/module/{{moduleId}}/new-listener/">
+            Create Listener for this Module
+        </a>
+
+    </div>
+</div>
